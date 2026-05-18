@@ -11,6 +11,7 @@
   font-synthesis: none;
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -36,7 +37,7 @@ button {
 
 .left-rail {
   position: fixed;
-  z-index: 40;
+  z-index: 46;
   inset: 0 auto 0 0;
   width: var(--rail-width);
   min-height: 100vh;
@@ -48,7 +49,6 @@ button {
   background: var(--rail-bg);
   border-radius: 0 24px 24px 0;
   box-shadow: 2px 0 8px rgba(0,0,0,0.08);
-  transition: background var(--transition-ms) ease, color var(--transition-ms) ease;
 }
 
 .left-rail::before {
@@ -58,18 +58,6 @@ button {
   inset: 0;
   border-radius: inherit;
   background: inherit;
-}
-
-.is-light.is-initial .left-rail {
-  color: #2A2A29;
-  background: #fbfbfb;
-  border-radius: 0 0 24px 0;
-}
-
-.is-dark.is-initial .left-rail {
-  color: #E0E0E0;
-  background: #151515;
-  border-radius: 0 0 24px 0;
 }
 
 .rail-brand {
@@ -86,18 +74,6 @@ button {
   width: 32px;
   height: 44px;
   display: block;
-  opacity: 1;
-  transform: translateY(0);
-  transition:
-    opacity 120ms cubic-bezier(0.2, 0, 0.1, 1) 110ms,
-    transform var(--transition-ms) cubic-bezier(0.2, 0, 0.1, 1);
-}
-
-.is-initial .fandom-mark {
-  opacity: 0;
-  transform: translateY(6px);
-  pointer-events: none;
-  transition-delay: 0ms;
 }
 
 .fandom-logo {
@@ -214,12 +190,12 @@ button {
   right: 0;
   height: var(--header-height);
   color: var(--primary-text);
-  background: #fbfbfb;
+  background: #EDEDED;
   transition: color var(--transition-ms) ease;
 }
 
-.is-dark.is-initial .top-header {
-  background: #151515;
+.is-dark .top-header {
+  background: #0C0C0C;
 }
 
 .is-initial .top-header {
@@ -233,6 +209,15 @@ button {
 
 .is-returning-initial .top-header {
   z-index: 30;
+}
+
+.is-fakePure.is-light .top-header::after {
+  background: transparent;
+}
+
+.is-wookieepedia.is-light.is-scrolled .top-header {
+  --primary-text: #f4f4f4;
+  --secondary-text: #B5B5B4;
 }
 
 .top-header::before {
@@ -256,6 +241,16 @@ button {
   transition-duration: 280ms;
 }
 
+.is-returning-initial .top-header::before {
+  opacity: 0;
+  transition: opacity 280ms cubic-bezier(0.2, 0, 0.1, 1);
+}
+
+.is-returning-initial .top-header::after {
+  background: transparent;
+  transition: background 280ms cubic-bezier(0.2, 0, 0.1, 1);
+}
+
 .top-header::after {
   content: "";
   position: absolute;
@@ -263,26 +258,36 @@ button {
   inset: 0;
   pointer-events: none;
   background: var(--control-overlay);
+  transition: background 90ms cubic-bezier(0.2, 0, 0.1, 1);
 }
 
 .is-initial .top-header::after {
   background: transparent;
+  transition-duration: 0ms;
+}
+
+.is-scroll-down.is-scrolled .top-header::after {
+  transition-duration: 280ms;
+}
+
+.is-scroll-up.is-scrolled .top-header::after {
+  transition-duration: 280ms;
 }
 
 .brand-stage {
   position: absolute;
   z-index: 2;
-  left: calc(var(--rail-width) + 28px);
+  left: calc(var(--rail-width) + 24px);
   top: 0;
   height: var(--header-height);
-  min-width: 380px;
+  min-width: 220px;
   transition: none;
 }
 
 .wordmark-layer {
   position: absolute;
   top: 50%;
-  left: -69px;
+  left: 0;
   transform: translateY(-50%);
   opacity: 1;
   transition:
@@ -314,9 +319,11 @@ button {
   position: absolute;
   left: 0;
   top: 50%;
-  width: 400px;
+  width: 220px;
   height: 52px;
   display: grid;
+  grid-template-rows: max-content max-content;
+  grid-template-columns: minmax(0, 1fr);
   align-content: center;
   justify-items: start;
   gap: 2px;
@@ -336,25 +343,35 @@ button {
 
 .page-title {
   grid-area: 1 / 1;
+  max-width: 100%;
   font-size: 16px;
   font-weight: 500;
   line-height: 1.1;
   opacity: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   transform: translateY(8px);
   transition: opacity var(--transition-ms) ease, transform var(--transition-ms) ease;
 }
 
 .wiki-title {
   grid-area: 1 / 1;
+  max-width: 100%;
   font-size: 16px;
   font-weight: 500;
   color: var(--primary-text);
   line-height: 1.1;
   opacity: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   transition: opacity 120ms cubic-bezier(0.2, 0, 0.1, 1);
 }
 
 .wiki-subtitle {
+  grid-area: 2 / 1;
+  max-width: 100%;
   display: inline-flex;
   align-items: center;
   gap: 3px;
@@ -362,7 +379,14 @@ button {
   opacity: 0;
   font-size: 13px;
   line-height: 1;
+  overflow: hidden;
+  white-space: nowrap;
   transition: opacity 120ms cubic-bezier(0.2, 0, 0.1, 1);
+}
+
+.wiki-subtitle span {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .is-scrolled .wiki-identity {
@@ -413,7 +437,7 @@ button {
 
 @media (max-width: 1700px) {
   .search-control {
-    width: 400px;
+    width: clamp(320px, calc(100vw - 980px), 400px);
   }
 
   .search-popover {
@@ -428,10 +452,13 @@ button {
   inset: 0;
   border-radius: inherit;
   background: var(--control-overlay);
+  transform: scale(1);
+  transform-origin: center;
+  will-change: transform, background, box-shadow;
   transition:
-    inset 180ms cubic-bezier(0.2, 0, 0.1, 1),
-    background 180ms cubic-bezier(0.2, 0, 0.1, 1),
-    box-shadow 180ms cubic-bezier(0.2, 0, 0.1, 1);
+    transform 210ms cubic-bezier(0.2, 0, 0.1, 1),
+    background 210ms cubic-bezier(0.2, 0, 0.1, 1),
+    box-shadow 210ms cubic-bezier(0.2, 0, 0.1, 1);
 }
 
 .search-control svg,
@@ -456,23 +483,18 @@ button {
 }
 
 .is-initial .search-control::before {
-  background: linear-gradient(120deg, rgba(0,0,0,0.08), rgba(0,0,0,0.04));
+  background: linear-gradient(120deg, rgba(255,255,255,0.55), rgba(255,255,255,0.45));
 }
 
 .is-dark.is-initial .search-control::before {
   background: linear-gradient(120deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
 }
 
-.search-control:hover,
-.search-control.active {
-  color: #2A2A29;
-}
-
 .search-control:hover::before,
 .search-control.active::before {
-  inset: -2px;
-  background: #fbfbfb;
-  box-shadow: 2px 2px 8px rgba(0,0,0,0.08);
+  transform: scale(1.035, 1.085);
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.80), rgba(255, 255, 255, 0.70));
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .action-bar {
@@ -493,7 +515,7 @@ button {
   height: 48px;
   display: grid;
   place-items: center;
-  padding: 12px 24px;
+  padding: 12px 20px;
   border-radius: 24px;
   corner-shape: squircle;
   background: transparent;
@@ -520,7 +542,7 @@ button {
     box-shadow 210ms cubic-bezier(0.2, 0, 0.1, 1);
 }
 
-.action-button span {
+.action-button > span {
   position: relative;
   z-index: 1;
   display: inline-flex;
@@ -529,6 +551,11 @@ button {
   gap: 6px;
   line-height: 24px;
   white-space: nowrap;
+  transform: translateY(1px);
+}
+
+.action-button .action-label {
+  display: inline;
 }
 
 .action-button svg {
@@ -543,37 +570,41 @@ button {
 }
 
 .is-dark.is-initial .action-button {
-  color: #E0E0E0;
+  color: #f4f4f4;
 }
 
 .is-initial .action-button::before {
-  background: linear-gradient(120deg, rgba(0,0,0,0.08), rgba(0,0,0,0.04));
+  background: linear-gradient(120deg, rgba(255,255,255,0.55), rgba(255,255,255,0.45));
 }
 
 .is-dark.is-initial .action-button::before {
   background: linear-gradient(120deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
 }
 
-.action-button:hover,
-.action-button.active {
-  color: #2A2A29;
-}
-
-.is-dark .action-button.active {
-  color: #E0E0E0;
-}
 
 .action-button:hover::before,
 .action-button.active::before {
   transform: scale(1.035, 1.085);
-  background: #fbfbfb;
-  box-shadow: 2px 2px 8px rgba(0,0,0,0.08);
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.80), rgba(255, 255, 255, 0.70));
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+.search-control.active::before,
 .action-button.active::before,
 .rail-profile.active {
   background: var(--active-control-overlay);
   outline-color: var(--active-control-stroke);
+}
+
+.is-dark .search-control:hover::before,
+.is-dark .search-control.active::before,
+.is-wookieepedia.is-light.is-scrolled .search-control:hover::before,
+.is-wookieepedia.is-light.is-scrolled .search-control.active::before,
+.is-dark .action-button:hover::before,
+.is-dark .action-button.active::before,
+.is-wookieepedia.is-light.is-scrolled .action-button:hover::before,
+.is-wookieepedia.is-light.is-scrolled .action-button.active::before {
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.08));
 }
 
 .overflow-trigger {
@@ -667,7 +698,7 @@ button {
 }
 
 .popover.light {
-  background: #fbfbfb;
+  background: #EDEDED;
   color: #151519;
 }
 
@@ -714,15 +745,16 @@ button {
 }
 
 .search-popover {
-  top: 36px;
+  top: 6px;
   left: calc(var(--rail-width) + (100vw - var(--rail-width)) * 0.5);
   width: 790px;
   height: 430px;
-  transform: translate(-50%, -8px) scale(0.985);
+  transform-origin: top center;
+  transform: translateX(-50%) scaleX(0.97) scaleY(0.92);
 }
 
 .search-popover.open {
-  transform: translate(-50%, 0) scale(1);
+  transform: translateX(-50%) scale(1);
 }
 
 .search-placeholder {
@@ -774,7 +806,7 @@ button {
 .demo-controls {
   position: fixed;
   z-index: 80;
-  left: 118px;
+  right: 18px;
   bottom: 18px;
   display: flex;
   align-items: center;
@@ -787,12 +819,16 @@ button {
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-.demo-controls span {
-  padding: 0 8px;
-  font-size: 12px;
-  font-weight: 850;
+.demo-controls > span:first-child {
+  display: none;
+}
+
+.control-group-label {
+  padding: 0 4px;
+  font-size: 10px;
+  font-weight: 750;
   text-transform: uppercase;
-  opacity: 0.7;
+  opacity: 0.5;
 }
 
 .demo-controls button {
@@ -808,17 +844,12 @@ button {
 .demo-controls button.active,
 .demo-controls button:hover {
   color: #1c1c1c;
-  background: #fbfbfb;
+  background: #EDEDED;
 }
 
 @media (max-width: 1380px) {
-  .search-control,
-  .search-popover {
-    left: calc(var(--rail-width) + (100vw - var(--rail-width)) * 0.48);
-  }
-
   .search-control {
-    width: 390px;
+    width: clamp(300px, calc(100vw - 940px), 360px);
   }
 
   .action-button {
@@ -827,5 +858,57 @@ button {
 
   .overflow-trigger {
     width: 48px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .search-control {
+    left: auto;
+    right: 436px;
+    width: clamp(280px, calc(100vw - 888px), 330px);
+    transform: none;
+  }
+
+  .search-popover {
+    left: auto;
+    right: 436px;
+    width: 620px;
+    transform-origin: top right;
+    transform: scaleX(0.97) scaleY(0.92);
+  }
+
+  .search-popover.open {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 1120px) {
+  .action-button {
+    width: 48px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .action-button > span {
+    justify-content: center;
+    gap: 0;
+  }
+
+  .action-button .action-label {
+    display: none;
+  }
+
+  .overflow-trigger > span {
+    width: auto;
+  }
+
+  .search-control {
+    right: 240px;
+    width: clamp(220px, calc(100vw - 580px), 300px);
+  }
+
+  .search-popover {
+    right: 240px;
+    width: min(560px, calc(100vw - var(--rail-width) - 264px));
   }
 }

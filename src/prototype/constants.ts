@@ -137,7 +137,7 @@ export const getOverlay = (background: string) => {
   if (nearPureWhite) {
     return {
       kind: "black",
-      gradient: "linear-gradient(120deg, rgba(0,0,0,0.08), rgba(0,0,0,0.04))"
+      gradient: "linear-gradient(120deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01))"
     };
   }
 

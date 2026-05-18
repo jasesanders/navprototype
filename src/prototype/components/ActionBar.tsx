@@ -45,7 +45,7 @@ export function ActionBar({ overflowOpen, onOverflowClick }: ActionBarProps) {
         <button className="action-button" key={label}>
           <span>
             {icon}
-            {label}
+            <span className="action-label">{label}</span>
           </span>
         </button>
       ))}

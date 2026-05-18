@@ -48,7 +48,7 @@ export function DesktopWikiChrome() {
 
       if (!nextIsScrolled && nextDirection === "up") {
         setIsReturningInitial(true);
-        returnTimer.current = window.setTimeout(() => setIsReturningInitial(false), 125);
+        returnTimer.current = window.setTimeout(() => setIsReturningInitial(false), 280);
       } else {
         setIsReturningInitial(false);
       }
@@ -87,7 +87,7 @@ export function DesktopWikiChrome() {
           "--nav-bg": mode.headerBg,
           "--rail-bg": mode.railBg,
           "--nav-text": mode.text,
-          "--primary-text": isDark ? "#E0E0E0" : "#2A2A29",
+          "--primary-text": isDark ? "#f4f4f4" : "#2A2A29",
           "--secondary-text": isDark ? "#B5B5B4" : "#4D4D4C",
           "--content-label": mode.contentText,
           "--control-overlay": overlay.gradient,
