@@ -8,7 +8,7 @@ type SearchControlProps = {
 export function SearchControl({ open, onClick }: SearchControlProps) {
   return (
     <button className={`search-control ${open ? "active" : ""}`} onClick={onClick}>
-      <Search size={23} strokeWidth={2.5} />
+      <Search size={20} strokeWidth={2.5} />
       <span>Search or Ask</span>
     </button>
   );

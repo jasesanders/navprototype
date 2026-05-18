@@ -26,7 +26,7 @@ export function LeftRail({ isDark, isScrolled, settingsOpen, onSettingsClick }: 
       <div className="rail-main">
         {items.map(({ label, icon: Icon }) => (
           <button className="rail-item" key={label}>
-            <Icon size={26} strokeWidth={2.4} />
+            <Icon size={21} strokeWidth={2.4} />
             <span>{label}</span>
           </button>
         ))}
@@ -34,7 +34,7 @@ export function LeftRail({ isDark, isScrolled, settingsOpen, onSettingsClick }: 
 
       <div className="rail-bottom">
         <button className="rail-bell" aria-label="Notifications">
-          <Bell size={27} strokeWidth={2.4} />
+          <Bell size={22} strokeWidth={2.4} />
           <span>16</span>
         </button>
         <button
@@ -43,7 +43,7 @@ export function LeftRail({ isDark, isScrolled, settingsOpen, onSettingsClick }: 
           aria-label="Settings and profile"
         >
           <span className="avatar">☠</span>
-          <Settings className="settings-mini" size={15} />
+          <Settings className="settings-mini" size={12} />
         </button>
       </div>
     </nav>
