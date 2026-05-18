@@ -7,12 +7,22 @@ import { SearchPopover } from "./components/SearchPopover";
 import { SettingsPopover } from "./components/SettingsPopover";
 import { TopHeader } from "./components/TopHeader";
 import { WikiNavPopover } from "./components/WikiNavPopover";
-import { AppearanceMode, DemoWiki, chrome, demoWikis, getOverlay } from "./constants";
+import {
+  AppearanceMode,
+  DemoArticleContent,
+  DemoWiki,
+  chrome,
+  demoWikis,
+  getOverlay
+} from "./constants";
+
+type LifecycleMode = "loggedIn" | "loggedOut";
 
 export function DesktopWikiChrome() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollDirection, setScrollDirection] = useState<"down" | "up">("down");
   const [isReturningInitial, setIsReturningInitial] = useState(false);
+  const [lifecycle, setLifecycle] = useState<LifecycleMode>("loggedIn");
   const [demoWiki, setDemoWiki] = useState<DemoWiki>("aesthetics");
   const [appearance, setAppearance] = useState<AppearanceMode>("light");
   const [searchOpen, setSearchOpen] = useState(false);
@@ -126,12 +136,14 @@ export function DesktopWikiChrome() {
       </TopHeader>
 
       <main className="page-canvas" aria-label="Prototype page canvas">
-        <DemoArticle title={wiki.pageTitle} wikiName={wiki.wikiName} />
+        <DemoArticle content={wiki.article} />
       </main>
 
       <DemoControls
+        lifecycle={lifecycle}
         demoWiki={demoWiki}
         appearance={appearance}
+        onLifecycleChange={setLifecycle}
         onWikiChange={setDemoWiki}
         onAppearanceChange={setAppearance}
       />
@@ -149,38 +161,24 @@ export function DesktopWikiChrome() {
   );
 }
 
-function DemoArticle({ title, wikiName }: { title: string; wikiName: string }) {
+function DemoArticle({ content }: { content: DemoArticleContent }) {
   return (
     <article className="demo-article">
-      <div className="article-kicker">{wikiName}</div>
-      <h1>{title}</h1>
-      <p>
-        This is placeholder page content for the navigation prototype. It is intentionally plain so
-        the header, rail, action controls, and popovers remain the focus.
-      </p>
-      <p>
-        The page needs enough body copy to make the scroll transition feel like a normal wiki page.
-        These blocks approximate a simple article layout without introducing real page design.
-      </p>
-      <h2>Overview</h2>
-      <p>
-        A few paragraphs sit below the fixed chrome so reviewers can scroll naturally and see the
-        wiki identity replace the initial Fandom brand in the header.
-      </p>
-      <p>
-        Additional text continues down the page with basic headings, loose paragraphs, and a small
-        list. No cards, no editorial styling, and no page-level UI polish are intended here.
-      </p>
+      <div className="article-kicker">{content.kicker}</div>
+      <h1>{content.headline}</h1>
+      <p>{content.intro}</p>
+      <p>{content.body}</p>
+      <h2>{content.sectionTitle}</h2>
       <ul>
-        <li>Simple content area for scroll behavior.</li>
-        <li>Plain wiki-page rhythm with minimal formatting.</li>
-        <li>Enough height to exercise initial and scrolled states.</li>
+        {content.bullets.map((bullet) => (
+          <li key={bullet}>{bullet}</li>
+        ))}
       </ul>
       <h2>Notes</h2>
       {Array.from({ length: 9 }).map((_, index) => (
         <p key={index}>
-          Placeholder paragraph {index + 1}. The navigation stays fixed while the article moves
-          beneath it, preserving stable search and action positions across the transition.
+          {content.noteLead} Placeholder paragraph {index + 1} keeps enough height to test the
+          initial and scrolled navigation states.
         </p>
       ))}
     </article>
@@ -188,41 +186,66 @@ function DemoArticle({ title, wikiName }: { title: string; wikiName: string }) {
 }
 
 type DemoControlsProps = {
+  lifecycle: LifecycleMode;
   demoWiki: DemoWiki;
   appearance: AppearanceMode;
+  onLifecycleChange: (value: LifecycleMode) => void;
   onWikiChange: (value: DemoWiki) => void;
   onAppearanceChange: (value: AppearanceMode) => void;
 };
 
 function DemoControls({
+  lifecycle,
   demoWiki,
   appearance,
+  onLifecycleChange,
   onWikiChange,
   onAppearanceChange
 }: DemoControlsProps) {
   return (
     <aside className="demo-controls" aria-label="Prototype controls">
-      <span>Demo</span>
-      <span className="control-group-label">Wiki</span>
-      {(["aesthetics", "wookieepedia", "fakePure"] as DemoWiki[]).map((wikiId) => (
-        <button
-          className={demoWiki === wikiId ? "active" : ""}
-          key={wikiId}
-          onClick={() => onWikiChange(wikiId)}
-        >
-          {demoWikis[wikiId].label}
-        </button>
-      ))}
-      <span className="control-group-label">Mode</span>
-      {(["light", "dark"] as AppearanceMode[]).map((modeId) => (
-        <button
-          className={appearance === modeId ? "active" : ""}
-          key={modeId}
-          onClick={() => onAppearanceChange(modeId)}
-        >
-          {modeId}
-        </button>
-      ))}
+      <div className="control-tier">
+        <span className="control-group-label">Lifecycle</span>
+        <div className="control-options">
+          {(["loggedIn", "loggedOut"] as LifecycleMode[]).map((lifecycleId) => (
+            <button
+              className={lifecycle === lifecycleId ? "active" : ""}
+              key={lifecycleId}
+              onClick={() => onLifecycleChange(lifecycleId)}
+            >
+              {lifecycleId === "loggedIn" ? "logged in" : "logged out"}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="control-tier">
+        <span className="control-group-label">Theme</span>
+        <div className="control-options">
+          {(["aesthetics", "wookieepedia", "fakePure"] as DemoWiki[]).map((wikiId) => (
+            <button
+              className={demoWiki === wikiId ? "active" : ""}
+              key={wikiId}
+              onClick={() => onWikiChange(wikiId)}
+            >
+              {demoWikis[wikiId].label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="control-tier">
+        <span className="control-group-label">Mode</span>
+        <div className="control-options">
+          {(["light", "dark"] as AppearanceMode[]).map((modeId) => (
+            <button
+              className={appearance === modeId ? "active" : ""}
+              key={modeId}
+              onClick={() => onAppearanceChange(modeId)}
+            >
+              {modeId}
+            </button>
+          ))}
+        </div>
+      </div>
     </aside>
   );
 }

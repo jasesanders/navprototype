@@ -626,24 +626,26 @@ button {
   margin-left: var(--rail-width);
   padding: calc(var(--header-height) + 48px) clamp(48px, 7vw, 112px) 180px;
   background: var(--page-gradient);
+  background-size: auto, 72px 72px, 72px 72px, auto;
 }
 
 .demo-article {
   width: min(820px, calc(100vw - var(--rail-width) - 160px));
   min-height: 1260px;
   padding: 38px 0 120px;
-  color: rgba(20,20,24,0.72);
+  color: var(--content-label);
 }
 
 .is-dark .demo-article {
-  color: rgba(255,255,255,0.72);
+  color: var(--content-label);
 }
 
 .article-kicker {
   margin-bottom: 10px;
   font-size: 14px;
   font-weight: 750;
-  opacity: 0.62;
+  color: currentColor;
+  opacity: 0.72;
 }
 
 .demo-article h1 {
@@ -679,6 +681,54 @@ button {
 .demo-article ul {
   margin: 8px 0 28px;
   padding-left: 22px;
+}
+
+.is-aesthetics .demo-article h1 {
+  color: #7e3a7f;
+}
+
+.is-aesthetics.is-dark .demo-article h1 {
+  color: #ffd6fb;
+}
+
+.is-aesthetics .demo-article h2 {
+  color: #9b4b96;
+}
+
+.is-aesthetics.is-dark .demo-article h2 {
+  color: #ffaef5;
+}
+
+.is-wookieepedia .demo-article h1 {
+  color: #eef3d4;
+}
+
+.is-wookieepedia.is-light .demo-article h1 {
+  color: #3f432d;
+}
+
+.is-wookieepedia .demo-article h2 {
+  color: #ccd49a;
+}
+
+.is-wookieepedia.is-light .demo-article h2 {
+  color: #5a633a;
+}
+
+.is-wookieepedia .demo-article {
+  text-shadow: 0 1px 0 rgba(0,0,0,0.28);
+}
+
+.is-wookieepedia.is-light .demo-article {
+  text-shadow: none;
+}
+
+.is-fakePure .demo-article h1 {
+  color: rgba(10,10,14,0.84);
+}
+
+.is-fakePure.is-dark .demo-article h1 {
+  color: rgba(255,255,255,0.88);
 }
 
 .popover {
@@ -810,25 +860,34 @@ button {
   z-index: 80;
   right: 18px;
   bottom: 18px;
-  display: flex;
-  align-items: center;
+  display: grid;
   gap: 7px;
-  padding: 8px;
-  border-radius: 999px;
+  padding: 10px;
+  border-radius: 18px;
   background: rgba(28,28,28,0.72);
   color: #fff;
   backdrop-filter: blur(18px);
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-.demo-controls > span:first-child {
-  display: none;
+.control-tier {
+  display: grid;
+  grid-template-columns: 68px 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.control-options {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .control-group-label {
-  padding: 0 4px;
+  padding: 0;
   font-size: 10px;
   font-weight: 750;
+  letter-spacing: 0;
   text-transform: uppercase;
   opacity: 0.5;
 }

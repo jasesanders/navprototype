@@ -18,6 +18,15 @@ export const chrome = {
 
 export type DemoWiki = "aesthetics" | "wookieepedia" | "fakePure";
 export type AppearanceMode = "light" | "dark";
+export type DemoArticleContent = {
+  kicker: string;
+  headline: string;
+  intro: string;
+  body: string;
+  sectionTitle: string;
+  bullets: string[];
+  noteLead: string;
+};
 
 export const demoWikis: Record<
   DemoWiki,
@@ -26,6 +35,7 @@ export const demoWikis: Record<
     wikiName: string;
     community: string;
     pageTitle: string;
+    article: DemoArticleContent;
     light: { label: string; headerBg: string; railBg: string; text: string; contentText: string; pageGradient: string };
     dark: { label: string; headerBg: string; railBg: string; text: string; contentText: string; pageGradient: string };
   }
@@ -34,44 +44,70 @@ export const demoWikis: Record<
     label: "Aesthetics",
     wikiName: "VSCO Girl",
     community: "Aesthetics Wiki",
-    pageTitle: "Han Solo or Whatever the Page Is",
+    pageTitle: "Cottagecore",
+    article: {
+      kicker: "Aesthetics Wiki",
+      headline: "Cottagecore",
+      intro:
+        "Cottagecore is an internet aesthetic inspired by pastoral life, handmade routines, soft florals, and a romanticized sense of retreat.",
+      body:
+        "The visual language often mixes garden imagery, handwritten textures, vintage rooms, and gentle color palettes. It sits close to fairycore, goblincore, and light academia while keeping a softer domestic focus.",
+      sectionTitle: "Common visuals",
+      bullets: ["Pressed flowers and picnic blankets.", "Lace, linen, gingham, and worn paper.", "Sunlit kitchens, gardens, fields, and forest paths."],
+      noteLead: "Aesthetics entries tend to collect reference images, adjacent microstyles, and community labels."
+    },
     light: {
       label: "Aesthetics light bg nav",
-      headerBg: "#ECD5F3",
+      headerBg: "#F1C9EB",
       railBg: "#fbfbfb",
-      text: "#25242b",
-      contentText: "#6c6c70",
-      pageGradient: "linear-gradient(105deg, #c8d4d8 0%, #d4d2d8 54%, #e0d0d1 100%)"
+      text: "#2d2030",
+      contentText: "#7b5b7a",
+      pageGradient:
+        "radial-gradient(circle at 14% 24%, rgba(255,210,126,0.42) 0 7%, transparent 8%), linear-gradient(90deg, rgba(176,126,184,0.18) 1px, transparent 1px), linear-gradient(0deg, rgba(176,126,184,0.18) 1px, transparent 1px), linear-gradient(105deg, #f7d7f1 0%, #efc7ea 48%, #f6dfef 100%)"
     },
     dark: {
       label: "Aesthetics dark bg nav",
-      headerBg: "#291235",
+      headerBg: "#32133A",
       railBg: "#151515",
-      text: "#f7f2fb",
-      contentText: "rgba(255,255,255,0.58)",
-      pageGradient: "linear-gradient(105deg, #517586 0%, #6a6875 50%, #965f63 100%)"
+      text: "#fff5ff",
+      contentText: "rgba(255,224,251,0.70)",
+      pageGradient:
+        "radial-gradient(circle at 14% 24%, rgba(255,111,210,0.23) 0 7%, transparent 8%), linear-gradient(90deg, rgba(255,210,251,0.12) 1px, transparent 1px), linear-gradient(0deg, rgba(255,210,251,0.12) 1px, transparent 1px), linear-gradient(105deg, #4b1d55 0%, #733472 50%, #3b173f 100%)"
     }
   },
   wookieepedia: {
     label: "Wookiepedia",
     wikiName: "Wookieepedia",
     community: "A Fake Wiki",
-    pageTitle: "Han Solo or Whatever the Page Is",
+    pageTitle: "In a galaxy far, far away...",
+    article: {
+      kicker: "Wookieepedia",
+      headline: "Jedi mind tricks",
+      intro:
+        "Jedi mind tricks were Force techniques used to influence weak-minded targets, redirect attention, and move through tense encounters without open conflict.",
+      body:
+        "Across the Star Wars galaxy, these moments usually read as quiet pressure instead of spectacle: a hand gesture, a calm phrase, and a guard suddenly convinced that nothing unusual is happening.",
+      sectionTitle: "Known patterns",
+      bullets: ["Most effective against distracted or suggestible targets.", "Often paired with diplomacy, stealth, or quick escapes.", "Less reliable against trained opponents and strong-willed species."],
+      noteLead: "Wookieepedia pages tend to lean into continuity, in-universe terminology, and dense cross-references."
+    },
     light: {
       label: "Wookieepedia light bg nav",
-      headerBg: "#524F37",
+      headerBg: "#56563C",
       railBg: "#fbfbfb",
       text: "#ffffff",
-      contentText: "#6c6258",
-      pageGradient: "linear-gradient(105deg, #c9d4d4 0%, #d6d0ce 55%, #e2d2ca 100%)"
+      contentText: "#575a42",
+      pageGradient:
+        "radial-gradient(circle at 52% -10%, rgba(202,216,151,0.36) 0 15%, transparent 28%), linear-gradient(105deg, #e8ecd3 0%, #dfe4c8 54%, #f2eedc 100%)"
     },
     dark: {
       label: "Wookieepedia dark bg nav",
-      headerBg: "#2F2E27",
+      headerBg: "#2A2B22",
       railBg: "#151515",
       text: "#fff4e2",
-      contentText: "rgba(255,244,226,0.62)",
-      pageGradient: "linear-gradient(105deg, #527584 0%, #6b6871 50%, #986063 100%)"
+      contentText: "rgba(225,231,198,0.68)",
+      pageGradient:
+        "radial-gradient(circle at 52% -10%, rgba(186,203,128,0.30) 0 15%, transparent 28%), linear-gradient(105deg, #24261d 0%, #1f2018 54%, #171810 100%)"
     }
   },
   fakePure: {
@@ -79,6 +115,17 @@ export const demoWikis: Record<
     wikiName: "Pure White BG on the Nav",
     community: "A Fake Wiki",
     pageTitle: "Pure White BG on the Nav",
+    article: {
+      kicker: "Prototype Wiki",
+      headline: "Pure White BG on the Nav",
+      intro:
+        "This neutral demo keeps the page intentionally plain so the white navigation treatment remains easy to inspect.",
+      body:
+        "It preserves the original placeholder rhythm and avoids introducing a strong wiki identity.",
+      sectionTitle: "Overview",
+      bullets: ["Simple content area for scroll behavior.", "Plain wiki-page rhythm with minimal formatting.", "Enough height to exercise initial and scrolled states."],
+      noteLead: "The navigation stays fixed while the article moves beneath it."
+    },
     light: {
       label: "FakePure #fff bg nav",
       headerBg: "#ffffff",
